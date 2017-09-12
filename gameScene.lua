@@ -26,8 +26,7 @@ local function touchListener(event)
     end
     return true
 end
- 
- 
+  
 -- -----------------------------------------------------------------------------------
 -- Scene event functions
 -- -----------------------------------------------------------------------------------
@@ -50,6 +49,12 @@ function scene:create( event )
     local playerView = player.load()
     sceneGroup:insert(playerView)
     background:addEventListener("touch", touchListener)
+
+    timer.performWithDelay(1000, function(event)
+        local element = display.newCircle(sceneGroup, width * .1 + math.random() * .9 * width, -width * .1, width * .1)
+        physics.addBody(element, "dynamic")
+        element:setLinearVelocity(0, 1000)
+    end, -1)
 end
  
  
