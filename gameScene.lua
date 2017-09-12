@@ -8,7 +8,24 @@ local scene = composer.newScene()
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
 -- -----------------------------------------------------------------------------------
  
- 
+local function touchListener(event)
+    local self = event.target
+    if ( event.phase == "began" ) then
+        display.getCurrentStage():setFocus( self )
+        self.isFocus = true
+
+        player.touchJoint:setTarget( event.x, event.y )
+    elseif ( self.isFocus ) then
+        player.touchJoint:setTarget( event.x, event.y )
+        if ( event.phase == "moved" ) then
+            --print( "Moved phase of touch event detected." )         
+        elseif ( event.phase == "ended" or event.phase == "cancelled" ) then
+            display.getCurrentStage():setFocus( nil )
+            self.isFocus = nil
+        end      
+    end
+    return true
+end
  
  
 -- -----------------------------------------------------------------------------------
@@ -20,12 +37,19 @@ function scene:create( event )
  
     local sceneGroup = self.view
     -- Code here runs when the scene is first created but has not yet appeared on screen
+
+    -- turn on physics
+    physics.start()
+    physics.setGravity( 0, 0 )
     
+    -- create background
     local background = display.newImageRect(sceneGroup, "assets/images/back.png", width, height)
     background.x, background.y = halfW, halfH
 
+    -- load and display player
     local playerView = player.load()
     sceneGroup:insert(playerView)
+    background:addEventListener("touch", touchListener)
 end
  
  
