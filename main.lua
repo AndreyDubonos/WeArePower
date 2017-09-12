@@ -1,7 +1,4 @@
------------------------------------------------------------------------------------------
---
--- main.lua
---
------------------------------------------------------------------------------------------
+display.setStatusBar( display.HiddenStatusBar )
 
--- Your code here
+local composer = require "composer"
+composer.gotoScene( "gameScene" )
