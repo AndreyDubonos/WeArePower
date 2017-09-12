@@ -1,4 +1,5 @@
 local composer = require( "composer" )
+local player = require("player")
  
 local scene = composer.newScene()
  
@@ -22,6 +23,9 @@ function scene:create( event )
     
     local background = display.newImageRect(sceneGroup, "assets/images/back.png", width, height)
     background.x, background.y = halfW, halfH
+
+    local playerView = player.load()
+    sceneGroup:insert(playerView)
 end
  
  
