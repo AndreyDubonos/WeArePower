@@ -51,10 +51,28 @@ function scene:create( event )
     background:addEventListener("touch", touchListener)
 
     timer.performWithDelay(1000, function(event)
-        local element = display.newCircle(sceneGroup, width * .1 + math.random() * .9 * width, -width * .1, width * .1)
+        local element = display.newCircle(sceneGroup, width * .1 + math.random() * .8 * width, -width * .1, width * .1)
         physics.addBody(element, "dynamic")
         element:setLinearVelocity(0, 1000)
+        if math.random() > 0.5 then 
+            element.type = "bonus"
+            element:setFillColor(19/255, 234/255, 22/255)
+        else 
+            element.type = "enemy"
+            element:setFillColor(232/255, 32/255, 22/255)            
+        end
     end, -1)
+
+    local scoreLabelText = display.newText( sceneGroup, "Score", width * .02, height * .03, native.systemFont, height *.03)
+    scoreLabelText.anchorX = 0
+    scoreLabelText:setFillColor( 1 )
+    local scoreText = display.newText( sceneGroup, 0, width * .02, height * .06, native.systemFont, height *.03)
+    scoreText.anchorX = 0
+    scoreText:setFillColor( 1 ) 
+
+    Runtime:addEventListener("enterFrame", function(event)
+            scoreText.text = player.score
+        end)
 end
  
  
